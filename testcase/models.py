@@ -4,20 +4,6 @@ from problem.models import Problem, Language
 
 
 class TestCase(models.Model):
-    """_summary_
-
-    every test case can have multiple problem
-    every problem can have multiple cases
-    each case can belong to only one problems.
-    every case can have multiple languages
-
-    Args:
-        models (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
-
     id = models.BigAutoField(primary_key=True)
 
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
