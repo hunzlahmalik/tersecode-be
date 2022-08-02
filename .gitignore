@@ -1,3 +1,7 @@
+temp/
+
+!**/migrations/__init__.py
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/django,macos,python,vs
 # Edit at https://www.toptal.com/developers/gitignore?templates=django,macos,python,vs

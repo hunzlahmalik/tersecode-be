@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-0=i&8g975y%fqxw%d-twdbmxssd+8_2xj2hjw0d9c8qzf*o(k8
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
+    '127.0.0.1',
 ]
 
 
@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # My apps
-    'problem.apps.ProblemConfig',
+    'problem',
+    'testcase',
 
     # Third-party apps
 ]
@@ -139,3 +140,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# media directory in the root directory
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
