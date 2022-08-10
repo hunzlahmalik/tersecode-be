@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
-from problem.constants import SOLUTION_STORAGE_PATH
+from problem.constants import SOLUTION_EXTENSIONS, SOLUTION_STORAGE_PATH
 from .problem import Problem
 from .language import Language
 
@@ -13,7 +13,7 @@ class Solution (models.Model):
     date_modified = models.DateTimeField(auto_now=True)
     solution = models.FileField(upload_to=SOLUTION_STORAGE_PATH,
                                 validators=[FileExtensionValidator(
-                                    ['py', 'md', 'txt']), ]
+                                    SOLUTION_EXTENSIONS), ]
                                 )
 
     def __str__(self):

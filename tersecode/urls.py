@@ -8,6 +8,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('problem/', include('problem.urls')),
+    path('account/', include('account.urls')),
+    path('submission/', include('submission.urls')),
 ]
 
 # only in development

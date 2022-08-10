@@ -13,11 +13,8 @@ class TestCase(models.Model):
     output = models.JSONField(default=list)
     hidden = models.BooleanField(default=True)
 
-    time_limit = models.IntegerField(default=1000)
-    memory_limit = models.IntegerField(default=65536)
-
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    runtime = models.IntegerField(default=1000)  # limit
+    memory = models.IntegerField(default=65536)  # limit
 
     def __str__(self):
         return self.problem.title + ' - ' + self.lanaguge.name + ' - ' + str(self.id)

@@ -1,0 +1,20 @@
+{% if problem%}
+<h1>{{problem.title}}</h1>
+<h3>Difficulty: {{problem.get_difficulty_display}}</h3>
+<strong><h2>Statement</h2></strong>
+<hr />
+{% autoescape off %}
+ {{statement}}
+ {% endautoescape %}
+{%else %} No details
+available. {% endif %}
+<hr />
+<h2>Tags</h2>
+<ul>
+  {%for tag in problem.tags.all%}
+  <li>{{tag.name}}</li>
+  <li>{%endfor%}</li>
+</ul>
+
+<hr />
+<h2><a href="{% url 'problem:submit' problem.id %}">Solve</a></h2>

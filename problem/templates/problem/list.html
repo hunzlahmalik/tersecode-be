@@ -1,0 +1,55 @@
+{% if problems %}
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+
+<h1>Problems</h1>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Difficulty</th>
+    <th>Solution</th>
+    <th>Tags</th>
+    <th>Languages</th>
+  </tr>
+  {% for problem in problems %}
+
+  <tr>
+    <td><a href="{% url 'problem:detail' problem.id %}">  {{ problem.id }}</a></td>
+    <td>{{ problem.title }}</td>
+    <td>{{ problem.get_difficulty_display }}</td>
+    <td>{{ problem.solution }}</td>
+    <td>
+      {%for tag in problem.tags.all%}
+      {{tag.name}}
+      {%endfor%}
+    </td>
+    <td>
+      {%for solution in problem.solution.all%}
+      {{solution.language.name}}
+      {%endfor%}
+    </td>
+  </tr>
+
+  {% endfor %}
+</table>
+
+{% else %}
+<p>No problems are available.</p>
+{% endif %}

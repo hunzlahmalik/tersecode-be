@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<h2>User</h2>
+<ul>
+  <li>Name: {{user.first_name}} {{user.last_name}}</li>
+  <li>Email: {{user.email}}</li>
+  <li>Username: {{user.username}}</li>
+  <li>Bio: {{user.bio}}</li>
+  <li>Avatar: {{user.avatar}}</li>
+  <img src="{{user.avatar.url}}" />
+  <li>Github: {{user.github}}</li>
+  <li>Linkedin: {{user.linkedin}}</li>
+  <li>Country: {{user.country}}</li>
+  <li>Total Submissions: {{submissions}}</li>
+  <li>Accepted Submissions: {{accepted_submissions}}</li>
+</ul>
+
+{% if request.user == user %}
+<a href="{% url 'account:update' user.username %}">Edit</a>
+<a href="{% url 'submission:submissions' user.username %}">Submissions</a>
+{% endif %}
+{% endblock %}
