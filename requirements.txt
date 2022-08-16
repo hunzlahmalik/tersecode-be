@@ -1,0 +1,8 @@
+Django==4.1
+django-filter
+djangorestframework
+Markdown
+Pillow
+pytest
+python-dotenv
+crispy-bootstrap5

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if problem.solution %}
+        <h1>{{ problem.title|upper }} Solution</h1>
+        <h3>Created at {{ problem.solution.created_at }}</h3>
+        <h3>Updated at {{ problem.solution.updated_at }}</h3>
+        <hr />
+        {% autoescape off %}
+            {{ solution }}
+        {% endautoescape %}
+    {% else %}
+        No details
+        available.
+    {% endif %}
+{% endblock content %}
