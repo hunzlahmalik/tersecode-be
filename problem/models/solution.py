@@ -6,18 +6,13 @@ from .language import Language
 
 
 class Solution (models.Model):
-    id = models.BigAutoField(primary_key=True)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    language = models.ForeignKey(Language, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
+    problem = models.OneToOneField(Problem, on_delete=models.CASCADE)
     solution = models.FileField(upload_to=SOLUTION_STORAGE_PATH,
                                 validators=[FileExtensionValidator(
                                     SOLUTION_EXTENSIONS), ]
                                 )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.problem.title + ' - ' + self.language.name
-
-    class Meta:
-        unique_together = ('problem', 'language')
+        return self.problem.title

@@ -1,8 +1,49 @@
-{{ submission.id }}
-{{ submission.user }}
-{{ submission.problem }}
-{{ submission.language }}
-{{ submission.get_status_display }}
-{{ submission.timestamp }}
-{{ submission.analytics.runtime }}
-{{ submission.analytics.memory }}
+{% extends "base.html" %}
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Field</th>
+                <th scope="col">Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ID</td>
+                <td>{{ submission.id }}</td>
+            </tr>
+            <tr>
+                <td>Problem</td>
+                <td>{{ submission.problem }}</td>
+            </tr>
+            <tr>
+                <td>Language</td>
+                <td>{{ submission.language }}</td>
+            </tr>
+            <tr>
+                <td>Status</td>
+                <td>{{ submission.get_status_display }}</td>
+            </tr>
+            <tr>
+                <td>Timestamp</td>
+                <td>{{ submission.timestamp }}</td>
+            </tr>
+            <tr>
+                <td>Runtime</td>
+                <td>{{ submission.analytics.runtime }}</td>
+            </tr>
+            <tr>
+                <td>Memory</td>
+                <td>{{ submission.analytics.memory }}</td>
+            </tr>
+            <tr>
+                <td>Code</td>
+                <td>
+                    <a class="btn btn-primary"
+                       target="_blank"
+                       href="{{ submission.code.url }}"><i class="fa-solid fa-download"></i>Download</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock content %}

@@ -1,10 +1,10 @@
 from django.views.generic import RedirectView, CreateView, FormView, DetailView, UpdateView
 from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
+from django.db.models import Count
 
-from .forms import UserForm
+from .forms import CustomUserCreationForm, UserForm
 from .models import User
 from .constants import LOGIN_PATTERN, LOGIN_REVESE_URL
 from submission.models import Submission, Status
@@ -17,7 +17,9 @@ class UserIndexView(LoginRequiredMixin, RedirectView):
     login_url = LOGIN_PATTERN
 
     def get_redirect_url(self):
-        return reverse_lazy(self.pattern_name, kwargs={'slug': self.request.user.username})
+        return reverse_lazy(
+            self.pattern_name, kwargs={
+                'slug': self.request.user.username})
 
 
 class UserDetailView(DetailView):
@@ -31,10 +33,17 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['title'] = 'User Detail'
         context['submissions'] = Submission.objects.filter(
             user=self.object).count()
         context['accepted_submissions'] = Submission.objects.filter(
             user=self.object, status=Status.ACCEPTED).count()
+        context['attempted_questions'] = Submission.objects.filter(
+            user=self.object).values('problem').annotate(
+            Count('problem')).count()
+        context['accepted_questions'] = Submission.objects.filter(
+            user=self.object, status=Status.ACCEPTED).values('problem').annotate(
+            Count('problem')).count()
         return context
 
 
@@ -53,12 +62,21 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == self.get_object()
 
     def get_success_url(self):
-        return reverse_lazy('account:detail', kwargs={'slug': self.request.user.username})
+        return reverse_lazy(
+            'account:detail', kwargs={
+                'slug': self.request.user.username})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update User'
+        return context
 
 
-class CustomLoginView(LoginView):
+class CustomLoginView(LoginView, LoginRequiredMixin):
     template_name = 'account/login.html'
     success_url = 'account:index'
+    login_url = LOGIN_PATTERN
+    redirect_authenticated_user = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -71,11 +89,23 @@ class CustomLoginView(LoginView):
 
 class CustomSignUpView(CreateView, FormView):
     template_name = 'account/signup.html'
-    form_class = UserCreationForm
+    form_class = CustomUserCreationForm
 
     success_url = LOGIN_REVESE_URL
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Sign Up'
+        return context
+
+
+class CustomLogoutView(LogoutView):
+    next_page = LOGIN_REVESE_URL
+
+    def get_next_page(self):
+        return reverse_lazy(self.next_page)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Logout'
         return context

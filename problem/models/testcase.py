@@ -17,4 +17,5 @@ class TestCase(models.Model):
     memory = models.IntegerField(default=65536)  # limit
 
     def __str__(self):
-        return self.problem.title + ' - ' + self.lanaguge.name + ' - ' + str(self.id)
+        return self.problem.title + ' - ' + \
+            self.lanaguge.name + ' - ' + str(self.id)

@@ -20,19 +20,20 @@ class Status(models.TextChoices):
 
 
 class Submission(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     language = models.ForeignKey(Language, on_delete=models.DO_NOTHING)
     status = models.CharField(max_length=1,
                               choices=Status.choices,
                               default=Status.PENDING)
-    code = models.FileField(upload_to=CODE_STORAGE_PATH,
-                            validators=[FileExtensionValidator(CODE_EXTENSIONS)])
+    code = models.FileField(
+        upload_to=CODE_STORAGE_PATH, validators=[
+            FileExtensionValidator(CODE_EXTENSIONS)])
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.user.username + ' - ' + self.problem.title + ' - ' + self.language.name
+        return self.user.username + ' - ' + \
+            self.problem.title + ' - ' + self.language.name
 
 
 class SubmissionAnalytics(models.Model):

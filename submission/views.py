@@ -14,7 +14,9 @@ class SubmissionIndexView(LoginRequiredMixin, RedirectView):
     login_url = 'account:login'
 
     def get_redirect_url(self):
-        return reverse_lazy(self.pattern_name, kwargs={'slug': self.request.user.username})
+        return reverse_lazy(
+            self.pattern_name, kwargs={
+                'slug': self.request.user.username})
 
 
 class SubmissionListView(LoginRequiredMixin, ListView):
@@ -27,8 +29,18 @@ class SubmissionListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return self.model.objects.filter(user__username=self.kwargs['slug'])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'My Submissions'
+        return context
+
 
 class SubmissionDetailView(LoginRequiredMixin, DetailView):
     model = Submission
     template_name = 'submission/detail.html'
     context_object_name = 'submission'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = 'Submissoin Details'
+        return context

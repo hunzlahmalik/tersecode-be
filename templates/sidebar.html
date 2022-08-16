@@ -1,0 +1,92 @@
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style>
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-light mycontainer">
+    <a href="{% url 'home' %}"
+       class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <i class="fa-solid fa-drone"></i>
+        <span class="fs-4">Tersecode</span>
+    </a>
+    <hr/>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="{% url 'home' %}"
+               class="nav-link link-dark"
+               aria-current="page">
+                <i class="fa-solid fa-house-user"></i>
+                Home
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'problem:list' %}" class="nav-link link-dark">
+                <i class="fa-solid fa-file-code"></i>
+                Problems
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'submission:list' %}" class="nav-link link-dark">
+                <i class="fa-solid fa-file-code"></i>
+                Submissions
+            </a>
+        </li>
+        {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'account:index' %}" class="nav-link link-dark">
+                    <i class="fa-solid fa-address-card"></i>
+                    Profile
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+    <hr/>
+    {% if user.is_authenticated %}
+        <div class="dropdown">
+            <a href="#"
+               class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+               id="dropdownUser2"
+               data-bs-toggle="dropdown"
+               aria-expanded="false">
+                <img src="{{ user.avatar.url }}"
+                     alt=""
+                     width="32"
+                     height="32"
+                     class="rounded-circle me-2"/>
+                <strong>{{ user.username }}</strong>
+            </a>
+            <ul class="dropdown-menu text-small shadow"
+                aria-labelledby="dropdownUser2">
+                <li>
+                    <a class="dropdown-item" href="{% url 'account:update' user.username %}">Settings</a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'account:index' %}">Profile</a>
+                </li>
+                <li>
+                    <hr class="dropdown-divider"/>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="nav nav-pills flex-column mb-auto mycontainer">
+            <a href="{% url 'account:login' %}" class="nav-link link-dark">
+                <i class="fa-solid fa-address-card"></i>
+                Login
+            </a>
+        </div>
+    {% endif %}
+</div>

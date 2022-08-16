@@ -6,14 +6,14 @@ from .models import User
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username',
+        fields = ['username', 'first_name', 'last_name',
                   'bio', 'avatar', 'github',
                   'linkedin', 'country']
 
         slug_field = 'username'
 
 
-class UserCreationForm (UserCreationForm):
+class CustomUserCreationForm (UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username',

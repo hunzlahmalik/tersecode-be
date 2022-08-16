@@ -11,8 +11,11 @@ class User(AbstractUser):
 
     # new fields
     bio = models.TextField(max_length=500, blank=True, null=True)
-    avatar = models.ImageField(upload_to=AVATAR_STORAGE_PATH,
-                               default='avatars/default.png', null=True, blank=True)
+    avatar = models.ImageField(
+        upload_to=AVATAR_STORAGE_PATH,
+        default='avatars/default.png',
+        null=True,
+        blank=True)
     github = models.URLField(max_length=200, null=True, blank=True)
     linkedin = models.URLField(max_length=200, null=True, blank=True)
     country = models.CharField(
