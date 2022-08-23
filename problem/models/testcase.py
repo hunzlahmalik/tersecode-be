@@ -7,7 +7,7 @@ class TestCase(models.Model):
     id = models.BigAutoField(primary_key=True)
 
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    lanaguge = models.ForeignKey(Language, on_delete=models.CASCADE)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE)
 
     input = models.JSONField(default=list)
     output = models.JSONField(default=list)
@@ -18,4 +18,4 @@ class TestCase(models.Model):
 
     def __str__(self):
         return self.problem.title + ' - ' + \
-            self.lanaguge.name + ' - ' + str(self.id)
+            self.language.name + ' - ' + str(self.id)

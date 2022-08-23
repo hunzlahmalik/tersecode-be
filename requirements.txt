@@ -1,8 +1,17 @@
 Django==4.1
 django-filter
 djangorestframework
+djangorestframework-simplejwt
 Markdown
 Pillow
 pytest
 python-dotenv
 crispy-bootstrap5
+coreapi
+crispy-bootstrap5
+django-celery-beat
+django-crispy-forms
+django-debug-toolbar
+django-extensions
+django-filter
+psycopg2

@@ -3,3 +3,4 @@ from .language import Language
 from .tag import Tag
 from .solution import Solution
 from .testcase import TestCase
+from .discussion import Discussion

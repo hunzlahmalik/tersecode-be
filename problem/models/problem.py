@@ -25,6 +25,7 @@ class Problem(models.Model):
                                      STATEMENT_EXTENSIONS), ]
                                  )
     tags = models.ManyToManyField(Tag, blank=True, related_name='problems')
+    slug = models.SlugField(max_length=50, unique=True)
 
     def __str__(self):
         return self.title

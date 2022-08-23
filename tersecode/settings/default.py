@@ -17,7 +17,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -51,9 +51,14 @@ INSTALLED_APPS = [
     'api',
 
     # Third-party apps
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'django_filters',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_celery_beat',
     'debug_toolbar',
+    'django_extensions',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -92,24 +97,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'tersecode.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# using the postgresql database
-# fill in the following values for your postgresql database
-# using the env file
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tersecode',
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
-    }
-}
 
 
 # Password validation
