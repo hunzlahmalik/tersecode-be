@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Field</th>
+            <th scope="col">Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Name</td>
+            <td>{{ profile.user.first_name }} {{ profile.user.last_name }}</td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td>{{ profile.user.email }}</td>
+        </tr>
+        <tr>
+            <td>Username</td>
+            <td>{{ profile.user.username }}</td>
+        </tr>
+        <tr>
+            <td>Bio</td>
+            <td>{{ profile.bio }}</td>
+        </tr>
+        <tr>
+            <td>Avatar</td>
+            <td>
+                <a class="btn btn-primary" target="_blank" href="{{ profile.avatar.url }}"><i
+                        class="fa-solid fa-download"></i>Download</a>
+            </td>
+        </tr>
+        <tr>
+            <td>Github</td>
+            <td>{{ profile.github }}</td>
+        </tr>
+        <tr>
+            <td>Linkedin</td>
+            <td>{{ profile.linkedin }}</td>
+        </tr>
+        <tr>
+            <td>Country</td>
+            <td>{{ profile.country }}</td>
+        </tr>
+        <tr>
+            <td>Total Submissions</td>
+            <td>{{ submissions }}</td>
+        </tr>
+        <tr>
+            <td>Accepted Submissions</td>
+            <td>{{ accepted_submissions }}</td>
+        </tr>
+        <tr>
+            <td>Total Questions Attempted</td>
+            <td>{{ attempted_questions }}</td>
+        </tr>
+        <tr>
+            <td>Accepted Questions</td>
+            <td>{{ accepted_questions }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {% if request.user == user %}
+        <a class="btn btn-primary"
+           href="{% url 'uprofile:update' %}">Edit</a>
+        <a class="btn btn-primary"
+           href="{% url 'submissions:submissions' profile.user.username %}">Submissions</a>
+    {% endif %}
+{% endblock content %}

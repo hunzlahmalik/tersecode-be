@@ -2,6 +2,7 @@
 
 | URL | Params | Description | Done |
 |---|---|---|---|
+
 **Account**
 | `/account/` | `{}` | Redirects to `/account/<username>` if loggedin else `/account/login` | `Yes` |
 | `/account/login` | `{}` | Shows the login page | `Yes` |

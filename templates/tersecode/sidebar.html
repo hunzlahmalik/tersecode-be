@@ -1,17 +1,17 @@
 <style>
-  .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-  }
-
-  @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-      font-size: 3.5rem;
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
     }
-  }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
 </style>
 <div class="d-flex flex-column flex-shrink-0 p-3 bg-light mycontainer">
     <a href="{% url 'home' %}"
@@ -30,20 +30,20 @@
             </a>
         </li>
         <li>
-            <a href="{% url 'problem:list' %}" class="nav-link link-dark">
+            <a href="{% url 'problems:list' %}" class="nav-link link-dark">
                 <i class="fa-solid fa-file-code"></i>
                 Problems
             </a>
         </li>
         <li>
-            <a href="{% url 'submission:list' %}" class="nav-link link-dark">
+            <a href="{% url 'submissions:list' %}" class="nav-link link-dark">
                 <i class="fa-solid fa-file-code"></i>
                 Submissions
             </a>
         </li>
         {% if user.is_authenticated %}
             <li>
-                <a href="{% url 'account:index' %}" class="nav-link link-dark">
+                <a href="{% url 'users:index' %}" class="nav-link link-dark">
                     <i class="fa-solid fa-address-card"></i>
                     Profile
                 </a>
@@ -68,22 +68,22 @@
             <ul class="dropdown-menu text-small shadow"
                 aria-labelledby="dropdownUser2">
                 <li>
-                    <a class="dropdown-item" href="{% url 'account:update' user.username %}">Settings</a>
+                    <a class="dropdown-item" href="{% url 'users:update' user.username %}">Settings</a>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="{% url 'account:index' %}">Profile</a>
+                    <a class="dropdown-item" href="{% url 'users:index' %}">Profile</a>
                 </li>
                 <li>
                     <hr class="dropdown-divider"/>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="{% url 'account:logout' %}">Sign out</a>
+                    <a class="dropdown-item" href="{% url 'users:logout' %}">Sign out</a>
                 </li>
             </ul>
         </div>
     {% else %}
         <div class="nav nav-pills flex-column mb-auto mycontainer">
-            <a href="{% url 'account:login' %}" class="nav-link link-dark">
+            <a href="{% url 'users:login' %}" class="nav-link link-dark">
                 <i class="fa-solid fa-address-card"></i>
                 Login
             </a>

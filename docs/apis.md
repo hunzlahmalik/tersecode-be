@@ -2,6 +2,7 @@
 
 | API | Params | Description | Available |
 |---|---|---|---|
+
 **Account**
 | `GET /account/` | `{}` | Shows the current user if logged in else 403 | `No` |
 | `/account/login` | `{}` | Shows the login page | `No` |

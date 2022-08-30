@@ -1,4 +1,4 @@
-Django==4.1
+Django
 django-filter
 djangorestframework
 djangorestframework-simplejwt
@@ -8,10 +8,11 @@ pytest
 python-dotenv
 crispy-bootstrap5
 coreapi
-crispy-bootstrap5
 django-celery-beat
 django-crispy-forms
 django-debug-toolbar
 django-extensions
-django-filter
 psycopg2
+celery
+PyJWT
+epicbox
