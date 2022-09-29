@@ -5,7 +5,8 @@ from celery import Celery
 # Set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tersecode.settings")
 
-app = Celery("tersecode")
+app = Celery("tasks")
+
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.
@@ -39,6 +40,5 @@ CACHES = {
 CELERY_CACHE_BACKEND = "default"
 CELERY_BROKER_URL = f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}"
 CELERY_RESULT_BACKEND = f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}"
-print(f"CELERY_BROKER_URL: {CELERY_BROKER_URL}")
+print(f"CELERY_BROKER_URL: {CELERY_BROKER_URL}",os.getenv('REDIS_HOST'),os.getenv('REDIS_PORT'))
 print(f"CELERY_RESULT_BACKEND: {CELERY_RESULT_BACKEND}")
-app.conf.broker_url = CELERY_BROKER_URL + "/0"
