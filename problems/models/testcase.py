@@ -7,11 +7,15 @@ class TestCase(models.Model):
     """
     TestCase model.
     """
+
     problem = models.ForeignKey(
         Problem, on_delete=models.CASCADE, related_name="testcases", help_text="Problem"
     )
     language = models.ForeignKey(
-        Language, on_delete=models.CASCADE, related_name="testcases", help_text="Language"
+        Language,
+        on_delete=models.CASCADE,
+        related_name="testcases",
+        help_text="Language",
     )
 
     input = models.JSONField(default=list)

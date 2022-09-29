@@ -1,8 +1,9 @@
 temp/
 **/migrations/**
 !**/migrations/__init__.py
-
+.vscode/
 .idea
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/redis
 # Edit at https://www.toptal.com/developers/gitignore?templates=redis

@@ -1,6 +1,6 @@
-from django.urls import resolve
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
+
 from ..models import User
 
 

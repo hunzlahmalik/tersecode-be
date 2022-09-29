@@ -37,5 +37,8 @@ CACHES = {
 
 # celery setting.
 CELERY_CACHE_BACKEND = "default"
-CELERY_BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+CELERY_BROKER_URL = f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}"
+CELERY_RESULT_BACKEND = f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}"
+print(f"CELERY_BROKER_URL: {CELERY_BROKER_URL}")
+print(f"CELERY_RESULT_BACKEND: {CELERY_RESULT_BACKEND}")
+app.conf.broker_url = CELERY_BROKER_URL + "/0"

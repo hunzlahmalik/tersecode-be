@@ -1,4 +1,5 @@
 from rest_framework import generics
+
 from api import permissions
 from .serializers import UserSerializer
 from ..models import User

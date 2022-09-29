@@ -30,8 +30,18 @@ if [ "$1" == "celery" ]; then
     exit 0
 fi
 
+if [ "$1" == "redis" ]; then
+    redis-server
+    exit 0
+fi
+
 if [ "$1" == "celerybeat" ]; then
     celery -A tersecode beat -l info
+    exit 0
+fi
+
+if [ "$1" == "run" ]; then
+    python manage.py runserver & redis-server & celery -A tersecode worker -l info
     exit 0
 fi
 
@@ -45,3 +55,4 @@ if [ "$1" == "--help" ]; then
     echo "Takes no arguments."
     exit 0
 fi
+

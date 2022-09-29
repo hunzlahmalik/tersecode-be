@@ -29,11 +29,13 @@ SECRET_KEY = "django-insecure-0=i&8g975y%fqxw%d-twdbmxssd+8_2xj2hjw0d9c8qzf*o(k8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = (
-    os.getenv("ALLOWED_HOSTS").split("|")
-    if os.getenv("ALLOWED_HOSTS")
-    else ["127.0.0.1", "localhost"]
-)
+# ALLOWED_HOSTS = (
+#     os.getenv("ALLOWED_HOSTS").split("|")
+#     if os.getenv("ALLOWED_HOSTS")
+#     else ["127.0.0.1", "localhost"]
+# )
+
+ALLOWED_HOSTS = ["*"]
 
 INTERNAL_IPS = ALLOWED_HOSTS
 
@@ -63,6 +65,8 @@ INSTALLED_APPS = [
     "django_celery_results",
     "debug_toolbar",
     "django_extensions",
+    "corsheaders",
+    "channels",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -71,6 +75,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -82,6 +87,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "tersecode.urls"
 AUTH_USER_MODEL = "users.User"
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:3000",
+# ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
@@ -100,6 +111,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "tersecode.wsgi.application"
+ASGI_APPLICATION = "tersecode.asgi.application"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

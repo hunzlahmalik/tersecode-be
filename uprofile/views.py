@@ -2,8 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Count
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Profile
+
 from submissions.models import Submission
+from .models import Profile
 
 
 class UserIndexView(LoginRequiredMixin, generic.RedirectView):

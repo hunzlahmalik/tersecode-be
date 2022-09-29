@@ -1,8 +1,10 @@
-from django.contrib.auth.hashers import make_password
-from rest_framework import serializers
-from django.contrib.auth.password_validation import validate_password
-from ..models import User
 from typing import Callable
+
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
+
+from ..models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

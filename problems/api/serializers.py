@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from submissions.models import Submission
+from submissions.models import Submission, SubmissionAnalytics
 from ..models import Tag, Problem, Discussion, Language, TestCase, Solution
 
 
@@ -67,13 +67,16 @@ class TestCaseSerializer(DynamicFieldsModelSerializer):
 
 
 class DiscussionSerializer(DynamicFieldsModelSerializer):
+    username = serializers.CharField(source="user.username", read_only=True)
+    avatar = serializers.CharField(source="user.profile.avatar.url", read_only=True)
+
     class Meta:
         model = Discussion
         fields = "__all__"
-        read_only_fields = ["id"]
+        read_only_fields = ["id", "user", "problem"]
         extra_kwargs = {
-            "users": {"required": True},
-            "problems": {"required": True},
+            "user": {"required": True},
+            "problem": {"required": True},
             "content": {"required": True},
         }
 
@@ -83,7 +86,7 @@ class ProblemSerializer(serializers.ModelSerializer):
     tags = serializers.SerializerMethodField()
     testcases = serializers.SerializerMethodField()
     discussion = serializers.SerializerMethodField(required=False)
-    is_solved = serializers.SerializerMethodField(required=False, read_only=True)
+    status = serializers.SerializerMethodField(required=False, read_only=True)
 
     class Meta:
         model = Problem
@@ -104,24 +107,48 @@ class ProblemSerializer(serializers.ModelSerializer):
 
         return data
 
+    def get_difficulty(self, obj: Problem):
+        return obj.get_difficulty_display()
+
     def get_tags(self, obj: Problem):
         return [tag.name for tag in obj.tags.all()]
 
-    def get_is_solved(self, obj: Problem):
+    def get_status(self, obj: Problem):
         if self.context["request"] and self.context["request"].user.is_authenticated:
-            return Submission.objects.filter(
+            if Submission.objects.filter(
                 user=self.context["request"].user,
                 problem=obj,
-                status=Submission.Status.ACCEPTED,
-            ).exists()
-        return False
+            ).exists():
+                if Submission.objects.filter(
+                    user=self.context["request"].user,
+                    problem=obj,
+                    analytics__status=SubmissionAnalytics.Status.ACCEPTED,
+                ).exists():
+                    return "Completed"
+                else:
+                    return "Failed"
+            else:
+                return "Not Attempted"
+        return None
 
     def get_discussion(self, obj: Problem):
         data = DiscussionSerializer(
-            obj.discussion_set.all(), many=True, fields=["id", "users", "content"]
+            obj.discussions.all(),
+            many=True,
+            # fields=["id", "user", "content", "created_at", "username", "avatar"],
         ).data
 
         return data
 
     def get_queryset(self):
         return Problem.objects.all()
+
+
+class ProblemStats(serializers.Serializer):
+    total = serializers.IntegerField()
+    accepted = serializers.IntegerField()
+
+
+class UserProblemsStats(serializers.Serializer):
+    total = serializers.IntegerField()
+    solved = serializers.IntegerField()

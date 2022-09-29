@@ -1,8 +1,8 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 
-def avatar_storage_path(instance: User, filename: str) -> str:
-    return "avatars/{}/{}".format(instance.username, filename)
+def avatar_storage_path(instance: "Profile", filename: str) -> str:
+    return "avatars/{}/{}".format(instance.user.username, filename)
 
 
 COUNTRIES = [

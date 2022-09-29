@@ -5,6 +5,7 @@ class Language(models.Model):
     """
     Programming language model.
     """
+
     class Name(models.TextChoices):
         C = "c", "C"
         CPP = "cpp", "C++"
@@ -24,8 +25,12 @@ class Language(models.Model):
         JAVA10 = "java10", "Java10"
         JAVA11 = "java11", "Java11"
 
-    name = models.CharField(max_length=50, choices=Name.choices, help_text="Language name")
-    extension = models.CharField(max_length=10, null=True, blank=True, help_text="Language extension")
+    name = models.CharField(
+        max_length=50, choices=Name.choices, help_text="Language name"
+    )
+    extension = models.CharField(
+        max_length=10, null=True, blank=True, help_text="Language extension"
+    )
 
     def __str__(self):
         return self.name

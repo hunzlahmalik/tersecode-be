@@ -1,10 +1,11 @@
 from rest_framework import serializers
 
 from ..models import Submission, SubmissionAnalytics
-from ..tasks import task_after_submission
 
 
 class SubmissionAnalyticsSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(source="get_status_display")
+
     class Meta:
         model = SubmissionAnalytics
         fields = "__all__"
@@ -15,8 +16,7 @@ class SubmissionAnalyticsSerializer(serializers.ModelSerializer):
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
-    analytics = SubmissionAnalyticsSerializer(required=False, read_only=True)
-    status = serializers.CharField(source="get_status_display", read_only=True)
+    analytics = SubmissionAnalyticsSerializer(read_only=True, required=False)
 
     class Meta:
         model = Submission
@@ -28,6 +28,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
             "code": {"required": True, "allow_null": False},
         }
 
+    #
     def create(self, validated_data):
         if not self.context["request"].user.is_authenticated:
             raise serializers.ValidationError({"detail": ["User is not authenticated"]})
@@ -39,7 +40,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
                     {"detail": ["User is not authenticated"]}
                 )
         data = super().create(validated_data)
-        task_after_submission.delay(data.id)
+        print("DATTS", data)
         return data
 
 
@@ -52,3 +53,33 @@ class DayCountSerializer(serializers.Serializer):
 
     day = serializers.DateTimeField(format="%Y-%m-%d")
     count = serializers.IntegerField()
+    accepted = serializers.IntegerField()
+
+
+class MonthCountSerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    month = serializers.DateTimeField(format="%Y-%m")
+    count = serializers.IntegerField()
+    accepted = serializers.IntegerField()
+
+
+class ProblemSubmissionStatusSerializer(serializers.Serializer):
+    def update(self, instance, validated_data):
+        pass
+
+    def create(self, validated_data):
+        pass
+
+    accepted = serializers.IntegerField()
+    count = serializers.IntegerField()
+    day = serializers.DateTimeField(format="%Y-%m-%d")
+
+
+class UserSubmissionsStatsSerializer(serializers.Serializer):
+    total = serializers.IntegerField()
+    accepted = serializers.IntegerField()

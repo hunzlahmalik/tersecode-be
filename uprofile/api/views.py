@@ -1,4 +1,5 @@
 from rest_framework import generics
+
 from api import permissions
 from .serializer import ProfileSerializer
 from ..models import Profile
@@ -18,3 +19,9 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = "user__username"
     lookup_url_kwarg = "username"
     permission_classes = [permissions.IsSuperUserORIsCurrentUserObject]
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
