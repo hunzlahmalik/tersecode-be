@@ -1,7 +1,7 @@
 # noinspection PyUnresolvedReferences
 # noinspection PyUnresolvedReferences
-from .celery import *
 from .default import *
+from .celery import *
 
 # noinspection PyUnresolvedReferences
 from .drf import *

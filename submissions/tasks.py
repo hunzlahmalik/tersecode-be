@@ -41,7 +41,6 @@ def task_after_submission(
     :param submission:
     :type submission:
     """
-    print("asfasgasgagdgasdgagadgasdg")
     print(analytics_id)
     print(SubmissionAnalytics.objects.get(pk=analytics_id))
     # print(analytics, analytics.submission)
@@ -60,7 +59,7 @@ def task_after_submission(
     total_testcases = testcases.count()
     try:
         outputs = coderunner.run(
-            filepath=submission.code.path,
+            code=submission.code.open("r").read(),
             language=submission.language.name,
             testcases=[
                 coderunner.CodeRunnerTestCase(

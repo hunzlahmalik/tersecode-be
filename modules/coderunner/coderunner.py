@@ -2,6 +2,18 @@ from dataclasses import dataclass
 
 import epicbox
 
+PRE_JS = """
+const _prompt = require('synchro-prompt');
+
+function prompt(message) {
+    if (message)
+        return _prompt(message);
+    else 
+        return _prompt("");
+}
+    
+"""
+
 
 @dataclass
 class EpicboxResult:
@@ -45,32 +57,38 @@ class CodeRunnerTestCase:
     runtime: int
 
 
+DOCKER_IMAGE = "crackaf/tersecode:epicbox"
+
 PROFILES = {
     "python": {
-        "docker_image": "python:latest",
-        "command": "python3 main.py",
+        "docker_image": DOCKER_IMAGE,
+        "command": "python3 main",
         # "user": "sandbox",
     },
     "python2": {
-        "docker_image": "python:2.7.14",
-        "command": "python2 main.py",
+        "docker_image": DOCKER_IMAGE,
+        "command": "python2 main",
         "user": "sandbox",
     },
     "python3": {
-        "docker_image": "python:3.10",
-        "command": "python3 main.py",
+        "docker_image": DOCKER_IMAGE,
+        "command": "python3 main",
         "user": "sandbox",
     },
     "gcc_compile": {
-        "docker_image": "gcc:latest",
-        "command": "g++ -pipe -O2 -static -o main main.cpp",
+        "docker_image": DOCKER_IMAGE,
+        "command": "g++ -pipe -O2 -static -o out main",
         "user": "root",
     },
     "c++": {
-        "docker_image": "gcc:latest",
-        "command": "./main",
+        "docker_image": DOCKER_IMAGE,
+        "command": "./out",
         "user": "sandbox",
         "read_only": True,
+    },
+    "javascript": {
+        "docker_image": DOCKER_IMAGE,
+        "command": "node main",
     },
 }
 
@@ -121,6 +139,10 @@ def run(
                 files=[{"name": "main.cpp", "content": code}],
                 workdir=workdir,
             )
+
+        if language == "javascript":
+            code = PRE_JS + code
+
         for testcase in testcases:
             result = epicbox.run(
                 profile_name=language,
@@ -128,7 +150,7 @@ def run(
                     "memory": testcase.memory,
                     "realtime": testcase.runtime,
                 },
-                files=[{"name": "main.py", "content": bytes(code, "utf-8")}],
+                files=[{"name": "main", "content": bytes(code, "utf-8")}],
                 stdin="\n".join(map(str, testcase.input)),
                 workdir=workdir,
             )
@@ -144,14 +166,3 @@ def run(
             )
 
     return results
-
-
-# outputs = run(
-#     filepath="/Volumes/data/code/github/tersecode/modules/coderunner/main.py",
-#     language="python",
-#     testcases=[
-#         ([1, 2], 10, 10),
-#         ([2, 3], 10, 10),
-#     ],
-# )
-# print(outputs)

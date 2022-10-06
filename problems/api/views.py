@@ -5,12 +5,20 @@ from submissions.models import Submission, SubmissionAnalytics
 from .contants import FILTERS
 from .serializers import (
     DiscussionSerializer,
+    LanguageSerializer,
     ProblemSerializer,
     TagSerializer,
     ProblemStats,
     UserProblemsStats,
 )
 from .. import models
+
+
+class LanguagesList(generics.ListAPIView):
+    queryset = models.Language.objects.all()
+    serializer_class = LanguageSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = None
 
 
 class ProblemList(generics.ListAPIView):

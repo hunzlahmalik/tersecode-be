@@ -3,7 +3,7 @@ from django.db import models
 
 from problems.models import Problem, Language
 from users.models import User
-from ..constants import CODE_EXTENSIONS, code_storage_path
+from ..constants import code_storage_path
 
 
 class Submission(models.Model):
@@ -28,7 +28,6 @@ class Submission(models.Model):
     )
     code = models.FileField(
         upload_to=code_storage_path,
-        validators=[FileExtensionValidator(CODE_EXTENSIONS)],
         help_text="Submission code",
     )
     timestamp = models.DateTimeField(

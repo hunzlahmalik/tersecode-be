@@ -40,5 +40,5 @@ CACHES = {
 CELERY_CACHE_BACKEND = "default"
 CELERY_BROKER_URL = f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}"
 CELERY_RESULT_BACKEND = f"redis://{os.getenv('REDIS_HOST')}:{os.getenv('REDIS_PORT')}"
-print(f"CELERY_BROKER_URL: {CELERY_BROKER_URL}",os.getenv('REDIS_HOST'),os.getenv('REDIS_PORT'))
+print(f"CELERY_BROKER_URL: {CELERY_BROKER_URL}")
 print(f"CELERY_RESULT_BACKEND: {CELERY_RESULT_BACKEND}")
