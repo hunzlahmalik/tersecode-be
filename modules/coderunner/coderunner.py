@@ -77,13 +77,13 @@ PROFILES = {
     },
     "gcc_compile": {
         "docker_image": DOCKER_IMAGE,
-        "command": "g++ -pipe -O2 -static -o out main",
+        "command": "g++ -pipe -O2 -static main -o out",
         "user": "root",
     },
-    "c++": {
+    "cpp": {
         "docker_image": DOCKER_IMAGE,
         "command": "./out",
-        "user": "sandbox",
+        "user": "root",
         "read_only": True,
     },
     "javascript": {
@@ -133,17 +133,18 @@ def run(
 
     results = []
     with epicbox.working_directory() as workdir:
-        if language == "c++":
-            epicbox.run(
-                profile_name="gcc_compile",
-                files=[{"name": "main.cpp", "content": code}],
-                workdir=workdir,
-            )
 
         if language == "javascript":
             code = PRE_JS + code
 
         for testcase in testcases:
+            result = None
+            if language == "cpp":
+                result = epicbox.run(
+                    profile_name="gcc_compile",
+                    files=[{"name": "main", "content": bytes(code, "utf-8")}],
+                    workdir=workdir,
+                )
             result = epicbox.run(
                 profile_name=language,
                 limits={
